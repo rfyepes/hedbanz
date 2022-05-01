@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Radio+Canada&family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <title>Hedbanz</title>
+    <link rel="icon" href="img/icon.png">
+    <style>
+      
+      * {
+        font-family: Roboto;
+      }
+      
+      h1 {
+        font-family: DM Serif Display;
+        font-size: 10vh;
+      }
+      
+      #card {
+        text-align: center;
+      }
+      
+      img {
+        height: 82vh;
+        border: 5px gray solid;
+        border-radius: 40px;
+      }
+      
+      body {
+        background-color: #acd5e3;
+      }
+      
+      input[type=button] {
+        display: block;
+        align-self: center;
+        margin: auto;
+        width: 150px;
+        height: 40px;
+        background-color: #eb4034;
+        color: #f0d824;
+        border-radius: 5px;
+        border: none;
+        font-family: Futura;
+        font-size: 15px;
+        font-weight: bold;
+        transition-duration: 0.4s;
+        margin-bottom: 3vh;
+        margin-top: 3vh;
+      }
+
+      input[type=button]:hover {
+        background-color: #f0d824;
+        color: #eb4034;
+      }
+
+      input[type=button]:active {
+        background-color: white;
+      }
+      
+      #countdown {
+        display: none;
+        text-align: center;
+        font-size: 60vh;
+        margin-top: 10vh;
+      }
+      
+      @media screen and (max-width: 500px) {
+        img {
+          height: auto;
+          width: 85vw;
+        }
+    
+      }
+    </style>
+  </head>
+  <body>
+    <script language="javascript">
+      
+      const DECK = ["img/robin.png", "img/penguin.png", "img/apple.png", 
+                    "img/pumpkin.png", "img/strawberry.png"];
+      var USED = [];
+      var PREV;
+    
+      window.onload = function() {
+        $("#draw").click(drawCard);
+      }
+      
+      function drawCard()
+      {
+        /* clear the current card, if there is one */
+        document.getElementById("card").innerHTML = "";
+        
+        /* draw a card, ensuring it's not the same as the previous one */
+        index = Math.floor(Math.random() * DECK.length);
+        if (USED.length == DECK.length) {
+          USED = [];
+        }
+        
+        while (USED.includes(index) || index == PREV) {
+          index = Math.floor(Math.random() * DECK.length);
+        }
+        
+        USED.push(index);
+        PREV = index;
+        
+        /* start the countdown */
+        $("#draw").hide();
+        countdown();
+        
+        /* display the drawn card after 3 seconds */
+        setTimeout(function() {
+          document.getElementById("card").innerHTML = '<img src="' + DECK[index] + '"/>';
+          $("#draw").show();
+          document.getElementById("draw").value = "New Card";
+        }, 3000);
+        
+      }
+      
+      function countdown()
+      {
+        document.getElementById("countdown").style.display = "block";
+        setTimeout(function() {
+          document.getElementById("countdown").innerHTML = "2";
+        }, 1000);
+        setTimeout(function() {
+          document.getElementById("countdown").innerHTML = "1";
+        }, 2000);
+        setTimeout(function() {
+          document.getElementById("countdown").style.display = "none";
+          document.getElementById("countdown").innerHTML = "3";
+        }, 3000);
+      }
+    </script>
+    <input type="button" value="Draw Card" id="draw">
+    <div id="card">
+      <h1>Welcome to Hedbanz!</h1>
+      <br>
+      Click the button above to draw a card.
+      <br><br>
+      You will have 3 seconds to turn your screen towards your group members so you can't see your card.
+      <br><br>
+      If you accidentally peek, you can redraw.
+    </div>
+    <div id="countdown">3</div>
+  </body>
+</html>

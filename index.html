@@ -101,6 +101,7 @@
       {
         /* clear the current card, if there is one */
         document.getElementById("card").innerHTML = "";
+        $(".copyright").hide();
         
         /* draw a card, ensuring it's not the same as the previous one */
         index = Math.floor(Math.random() * DECK_SIZE);
